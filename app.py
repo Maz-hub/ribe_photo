@@ -473,7 +473,4 @@ def internal_server_error(e):
     # Render the custom 500 error page
     return render_template("500.html"), 500
 
-from flask import Flask
-from flask_sslify import SSLify
-
 
