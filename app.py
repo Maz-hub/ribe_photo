@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 from cloudinary.utils import cloudinary_url
-from cloudinary.api import resource
 import cloudinary
 import os
 from sendgrid import SendGridAPIClient
@@ -87,25 +86,23 @@ def lake_leman():
         "Leman_Ribe_Photo_2_rdyged",
     ]
 
+    # Generate banner URL locally — no API call
     banner_url = cloudinary_url(banner_id)[0]
 
-    # List to hold image URLs and titles
-    project_images = []
+    # Single API call to fetch metadata (e.g. captions) for all images at once
+    result = cloudinary.api.resources_by_ids(lake_leman_ids, context=True)
 
-    # Fetch URLs and titles
-    for image_id in lake_leman_ids:
-        # Generate the image URL
-        url = cloudinary_url(image_id)[0]
-        
-        # Fetch metadata from Cloudinary
-        resource = cloudinary.api.resource(image_id, context=True)
-        title = resource.get('context', {}).get('custom', {}).get('caption', 'No Title') 
-        
-        # Image data to the list
-        project_images.append({
-            'url': url,
-            'title': title
-        })
+    # Index results by public_id — the API returns them in arbitrary order
+    by_id = {r["public_id"]: r for r in result["resources"]}
+
+    # Rebuild the list in the original curated order, pairing each URL with its caption
+    project_images = [
+        {
+            "url": cloudinary_url(image_id)[0],
+            "title": by_id.get(image_id, {}).get("context", {}).get("custom", {}).get("caption", "No Title"),
+        }
+        for image_id in lake_leman_ids
+    ]
 
     return render_template("lake_leman.html", banner_url=banner_url, project_images=project_images)
 
@@ -155,25 +152,23 @@ def plitvice_national_park_croatia():
         "Plitvice_Ribe_Photo_11_vpn400",
     ]
 
+    # Generate banner URL locally — no API call
     banner_url = cloudinary_url(banner_id)[0]
 
-    # List to hold image URLs and titles
-    project_images = []
+    # Single API call to fetch metadata (e.g. captions) for all images at once
+    result = cloudinary.api.resources_by_ids(plitvice_national_park_croatia_ids, context=True)
 
-    # Fetch URLs and titles
-    for image_id in plitvice_national_park_croatia_ids:
-        # Generate the image URL
-        url = cloudinary_url(image_id)[0]
-        
-        # Fetch metadata from Cloudinary
-        resource = cloudinary.api.resource(image_id, context=True)
-        title = resource.get('context', {}).get('custom', {}).get('caption', 'No Title') 
-        
-        # Image data to the list
-        project_images.append({
-            'url': url,
-            'title': title
-        })
+    # Index results by public_id — the API returns them in arbitrary order
+    by_id = {r["public_id"]: r for r in result["resources"]}
+
+    # Rebuild the list in the original curated order, pairing each URL with its caption
+    project_images = [
+        {
+            "url": cloudinary_url(image_id)[0],
+            "title": by_id.get(image_id, {}).get("context", {}).get("custom", {}).get("caption", "No Title"),
+        }
+        for image_id in plitvice_national_park_croatia_ids
+    ]
 
     return render_template("plitvice_national_park_croatia.html", banner_url=banner_url, project_images=project_images)
 
@@ -226,25 +221,23 @@ def dubrovnik_croatia():
         "Dubrovnik_Ribe_Photo_3_zw4rbt",
     ]
 
+    # Generate banner URL locally — no API call
     banner_url = cloudinary_url(banner_id)[0]
 
-    # List to hold image URLs and titles
-    project_images = []
+    # Single API call to fetch metadata (e.g. captions) for all images at once
+    result = cloudinary.api.resources_by_ids(dubrovnik_croatia_ids, context=True)
 
-    # Fetch URLs and titles
-    for image_id in dubrovnik_croatia_ids:
-        # Generate the image URL
-        url = cloudinary_url(image_id)[0]
-        
-        # Fetch metadata from Cloudinary
-        resource = cloudinary.api.resource(image_id, context=True)
-        title = resource.get('context', {}).get('custom', {}).get('caption', 'No Title') 
-        
-        # Image data to the list
-        project_images.append({
-            'url': url,
-            'title': title
-        })
+    # Index results by public_id — the API returns them in arbitrary order
+    by_id = {r["public_id"]: r for r in result["resources"]}
+
+    # Rebuild the list in the original curated order, pairing each URL with its caption
+    project_images = [
+        {
+            "url": cloudinary_url(image_id)[0],
+            "title": by_id.get(image_id, {}).get("context", {}).get("custom", {}).get("caption", "No Title"),
+        }
+        for image_id in dubrovnik_croatia_ids
+    ]
 
     return render_template("dubrovnik_croatia.html", banner_url=banner_url, project_images=project_images)  
 
@@ -280,25 +273,23 @@ def mountains_autumn():
         "Autumn_Ribe_Photo_8_mqxfh2",
     ]
 
+    # Generate banner URL locally — no API call
     banner_url = cloudinary_url(banner_id)[0]
 
-    # List to hold image URLs and titles
-    project_images = []
+    # Single API call to fetch metadata (e.g. captions) for all images at once
+    result = cloudinary.api.resources_by_ids(mountains_autumn_ids, context=True)
 
-    # Fetch URLs and titles
-    for image_id in mountains_autumn_ids:
-        # Generate the image URL
-        url = cloudinary_url(image_id)[0]
-        
-        # Fetch metadata from Cloudinary
-        resource = cloudinary.api.resource(image_id, context=True)
-        title = resource.get('context', {}).get('custom', {}).get('caption', 'No Title') 
-        
-        # Image data to the list
-        project_images.append({
-            'url': url,
-            'title': title
-        })
+    # Index results by public_id — the API returns them in arbitrary order
+    by_id = {r["public_id"]: r for r in result["resources"]}
+
+    # Rebuild the list in the original curated order, pairing each URL with its caption
+    project_images = [
+        {
+            "url": cloudinary_url(image_id)[0],
+            "title": by_id.get(image_id, {}).get("context", {}).get("custom", {}).get("caption", "No Title"),
+        }
+        for image_id in mountains_autumn_ids
+    ]
 
     return render_template("mountains_autumn.html", banner_url=banner_url, project_images=project_images)   
 
@@ -324,25 +315,23 @@ def sahara_sands():
         "Sahara_Ribe_Photo_8_i3i4pm",
     ]
 
+    # Generate banner URL locally — no API call
     banner_url = cloudinary_url(banner_id)[0]
 
-    # List to hold image URLs and titles
-    project_images = []
+    # Single API call to fetch metadata (e.g. captions) for all images at once
+    result = cloudinary.api.resources_by_ids(sahara_sands_ids, context=True)
 
-    # Fetch URLs and titles
-    for image_id in sahara_sands_ids:
-        # Generate the image URL
-        url = cloudinary_url(image_id)[0]
-        
-        # Fetch metadata from Cloudinary
-        resource = cloudinary.api.resource(image_id, context=True)
-        title = resource.get('context', {}).get('custom', {}).get('caption', 'No Title') 
-        
-        # Image data to the list
-        project_images.append({
-            'url': url,
-            'title': title
-        })
+    # Index results by public_id — the API returns them in arbitrary order
+    by_id = {r["public_id"]: r for r in result["resources"]}
+
+    # Rebuild the list in the original curated order, pairing each URL with its caption
+    project_images = [
+        {
+            "url": cloudinary_url(image_id)[0],
+            "title": by_id.get(image_id, {}).get("context", {}).get("custom", {}).get("caption", "No Title"),
+        }
+        for image_id in sahara_sands_ids
+    ]
 
     return render_template("sahara_sands.html", banner_url=banner_url, project_images=project_images)   
 
@@ -371,25 +360,23 @@ def mushrooms():
         "Mushroom_ribe_photo_1_cfmg9t",
     ]
 
+    # Generate banner URL locally — no API call
     banner_url = cloudinary_url(banner_id)[0]
 
-    # List to hold image URLs and titles
-    project_images = []
+    # Single API call to fetch metadata (e.g. captions) for all images at once
+    result = cloudinary.api.resources_by_ids(mushrooms_ids, context=True)
 
-    # Fetch URLs and titles
-    for image_id in mushrooms_ids:
-        # Generate the image URL
-        url = cloudinary_url(image_id)[0]
-        
-        # Fetch metadata from Cloudinary
-        resource = cloudinary.api.resource(image_id, context=True)
-        title = resource.get('context', {}).get('custom', {}).get('caption', 'No Title') 
-        
-        # Image data to the list
-        project_images.append({
-            'url': url,
-            'title': title
-        })
+    # Index results by public_id — the API returns them in arbitrary order
+    by_id = {r["public_id"]: r for r in result["resources"]}
+
+    # Rebuild the list in the original curated order, pairing each URL with its caption
+    project_images = [
+        {
+            "url": cloudinary_url(image_id)[0],
+            "title": by_id.get(image_id, {}).get("context", {}).get("custom", {}).get("caption", "No Title"),
+        }
+        for image_id in mushrooms_ids
+    ]
 
     return render_template("mushrooms.html", banner_url=banner_url, project_images=project_images)         
 
