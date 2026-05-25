@@ -1,17 +1,14 @@
 from flask import Flask, render_template, request
 from cloudinary.utils import cloudinary_url
 import cloudinary
+import cloudinary.api  # required: `import cloudinary` alone does not load submodules
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
-from flask_sslify import SSLify
 
 # Flask instance
 app = Flask(__name__)
-
-# Enforce SSL
-sslify = SSLify(app)
 
 
 # Load environment variables
