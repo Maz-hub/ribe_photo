@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Response
 from cloudinary.utils import cloudinary_url
 import cloudinary
 import cloudinary.api  # required: `import cloudinary` alone does not load submodules
+import html as html_lib  # used to escape user input in send_email to prevent XSS
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -586,25 +587,31 @@ def send_email():
         os.environ['SSL_CERT_FILE'] = certifi.where()
 
         # Get form data
-        user_name = request.form.get('name')
-        user_email = request.form.get('email')
-        user_message = request.form.get('message')
+        user_name = request.form.get('name', '').strip()
+        user_email = request.form.get('email', '').strip()
+        user_message = request.form.get('message', '').strip()
 
         # Ensure all fields are populated
         if not user_name or not user_email or not user_message:
             return "All form fields are required", 400
 
+        # Escape HTML special chars to prevent XSS if an email client renders injected tags.
+        # Replace newlines in the message with <br> so line breaks survive HTML rendering.
+        safe_name = html_lib.escape(user_name)
+        safe_email = html_lib.escape(user_email)
+        safe_message = html_lib.escape(user_message).replace('\n', '<br>')
+
         # Compose the email
         message = Mail(
             from_email='ribephoto@gmail.com',  # The sender email (must be verified in SendGrid)
             to_emails='ribephoto@gmail.com',  # The recipient email
-            subject=f"New Contact Form Submission from {user_name}",
+            subject=f"New Contact Form Submission from {safe_name}",
             html_content=f"""
                 <p>You have a new contact form submission:</p>
-                <p><strong>Name:</strong> {user_name}</p>
-                <p><strong>Email:</strong> {user_email}</p>
+                <p><strong>Name:</strong> {safe_name}</p>
+                <p><strong>Email:</strong> {safe_email}</p>
                 <p><strong>Message:</strong></p>
-                <p>{user_message}</p>
+                <p>{safe_message}</p>
             """
         )
 
@@ -621,13 +628,55 @@ def send_email():
 # 404 Error Handler
 @app.errorhandler(404)
 def page_not_found(e):
-    # Render the custom 404 page
     return render_template("404.html"), 404
 
 # 500 Internal Server Errors
 @app.errorhandler(500)
 def internal_server_error(e):
-    # Render the custom 500 error page
     return render_template("500.html"), 500
+
+
+# ── SEO helpers ────────────────────────────────────────────────────────────────
+
+@app.route("/robots.txt")
+def robots_txt():
+    """Tell crawlers all pages are allowed and point to the sitemap."""
+    content = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Sitemap: https://ribe.photo/sitemap.xml\n"
+    )
+    return Response(content, mimetype="text/plain")
+
+
+@app.route("/sitemap.xml")
+def sitemap_xml():
+    """XML sitemap listing every public gallery and static page."""
+    base = "https://ribe.photo"
+    pages = [
+        "/",
+        "/galleries",
+        "/mountains_summer",
+        "/mountains_autumn",
+        "/mountains_winter",
+        "/lake_leman",
+        "/sahara_sands",
+        "/mushrooms",
+        "/greece",
+        "/dubrovnik_croatia",
+        "/plitvice_national_park_croatia",
+        "/about",
+        "/contact",
+    ]
+    urls = "\n".join(
+        f"  <url><loc>{base}{page}</loc></url>" for page in pages
+    )
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{urls}\n"
+        "</urlset>"
+    )
+    return Response(xml, mimetype="application/xml")
 
 

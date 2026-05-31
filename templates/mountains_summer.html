@@ -1,4 +1,10 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+
+{% block title %}Ribe Photo | Swiss Alps in Summer{% endblock %}
+{% block meta_description %}Summer in the Swiss Alps — lush meadows, wildflowers, glacier light, and jagged peaks captured by Andrea Ribero in the Riviera Vaudoise.{% endblock %}
+{% block og_image %}{{ banner_url }}{% endblock %}
+
+{% block content %}
 <!-- Banner -->
 <section
   id="banner"
@@ -48,7 +54,7 @@
         data-lightbox
         data-title="{{ image.title }}"
       >
-        <img src="{{ image.url }}" alt="{{ image.title }}" class="img-fluid" />
+        <img src="{{ image.url }}" alt="{{ image.title }}" class="img-fluid" loading="lazy" />
       </a>
     </div>
     {% endfor %}

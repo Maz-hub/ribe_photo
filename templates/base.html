@@ -41,7 +41,41 @@
       gtag("config", "G-18YR2W6TZH");
     </script>
 
-    <title>Ribe Photo</title>
+    <!--
+      SEO block system — child templates override these three blocks:
+        {% block title %}            → browser tab + og:title + twitter:title
+        {% block meta_description %} → search snippet + og:description
+        {% block og_image %}         → URL string only, drives og:image + twitter:image
+
+      All three have sensible portfolio-wide defaults so pages that don't
+      override them still produce valid meta tags.
+    -->
+
+    <!-- Page title — overridden per page via {% block title %} -->
+    <title>{% block title %}Ribe Photo{% endblock %}</title>
+
+    <!-- Meta description for search engines — keep under 160 chars -->
+    <meta
+      name="description"
+      content="{% block meta_description %}Photography portfolio by Andrea Ribero — landscapes, nature and travel photography from Switzerland, Croatia, Greece and beyond.{% endblock %}"
+    />
+
+    <!--
+      Open Graph — controls how links appear on Instagram, WhatsApp,
+      LinkedIn, Facebook, Slack, iMessage, etc.
+      og:title and og:description reuse the blocks above via self.block()
+      so child templates only need to set things once.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:title" content="{{ self.title() }}" />
+    <meta property="og:description" content="{{ self.meta_description() }}" />
+    <!-- og:image value is the URL string provided by {% block og_image %} in each page -->
+    <meta property="og:image" content="{% block og_image %}{% endblock %}" />
+
+    <!-- Twitter / X card — summary_large_image shows the full banner on share -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="{{ self.og_image() }}" />
   </head>
   <body>
     <!-- Navigation -->
@@ -123,7 +157,11 @@
       </div>
     </nav>
 
-    {% block content %} {% endblock %}
+    <!-- <main> is the primary content landmark — used by screen readers,
+         browser reader modes, and accessibility audit tools -->
+    <main>
+      {% block content %}{% endblock %}
+    </main>
     <!-- Footer -->
     <footer class="text-white bg-dark py-3">
       <div class="container">

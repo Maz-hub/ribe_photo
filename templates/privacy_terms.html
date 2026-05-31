@@ -1,4 +1,10 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block title %}Ribe Photo | Privacy & Terms{% endblock %}
+{% block meta_description %}Privacy policy, terms and conditions, and impressum for Ribe Photo — the photography portfolio of Andrea Ribero, based in Vevey, Switzerland.{% endblock %}
+{% block og_image %}{{ banner_url }}{% endblock %}
+
+{% block content %}
 <!-- Banner Section -->
 <section
   id="banner"
@@ -7,7 +13,7 @@
 ></section>
 
 <!-- Buttons Section -->
-<div class="container my-6 text-center">
+<div class="container my-5 text-center">
   <div class="row">
     <div class="col-md-4 mb-2">
       <a href="#impressum" class="btn btn-primary w-100">Impressum</a>
@@ -73,7 +79,7 @@
     <p><strong>Web App Name:</strong> Ribe Photo</p>
     <p>
       <strong>Web App Address:</strong>
-      <a href="https://ribe.photo" target="_blank">https://ribe.photo</a>
+      <a href="https://ribe.photo" target="_blank" rel="noopener noreferrer">https://ribe.photo</a>
     </p>
 
     <p>
@@ -288,7 +294,7 @@
     <h3 class="mt-4">10. Contact</h3>
     <p>
       If you have any questions or concerns about these Terms & Conditions,
-      please contact us via the <a href="#contact">Contact Form</a>.
+      please contact us via the <a href="{{ url_for('contact') }}">Contact Form</a>.
     </p>
     <p>
       For legal and contact information, please refer to our

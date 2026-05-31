@@ -10,6 +10,12 @@ html {
   overflow-x: hidden;
 }
 
+/* Bootstrap 5 removed the text-justify utility class that was present in Bootstrap 4.
+   Restore it here so all class="text-justify" instances render as intended. */
+.text-justify {
+  text-align: justify;
+}
+
 /* Navbar styles */
 .navbar .btn-outline-light:hover {
   color: var(--bs-dark);

@@ -1,4 +1,10 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+
+{% block title %}Ribe Photo | Swiss Alps in Winter{% endblock %}
+{% block meta_description %}Winter in the Swiss Alps — stark white peaks, raking golden light across snow, and raw mountain silence. Photography by Andrea Ribero.{% endblock %}
+{% block og_image %}{{ banner_url }}{% endblock %}
+
+{% block content %}
 <!-- Banner -->
 <section
   id="banner"
@@ -47,7 +53,7 @@
         data-lightbox
         data-title="{{ image.title }}"
       >
-        <img src="{{ image.url }}" alt="{{ image.title }}" class="img-fluid" />
+        <img src="{{ image.url }}" alt="{{ image.title }}" class="img-fluid" loading="lazy" />
       </a>
     </div>
     {% endfor %}

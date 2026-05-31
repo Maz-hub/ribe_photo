@@ -1,4 +1,10 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+
+{% block title %}Ribe Photo | About Andrea Ribero{% endblock %}
+{% block meta_description %}Andrea Ribero is a landscape and nature photographer based in the Riviera Vaudoise, Switzerland, with roots in Piedmont, Italy. Shooting with Canon.{% endblock %}
+{% block og_image %}{{ banner_url }}{% endblock %}
+
+{% block content %}
 
 <section
   id="banner"
@@ -13,7 +19,7 @@
       <div class="col-lg-6 col-md-12 order-lg-1 order-2">
         <img
           src="{{ first_image_url }}"
-          alt="Canon 5D Mark IV"
+          alt="Andrea Ribero's Canon EOS 5D Mark IV camera body"
           class="img-fluid rounded"
         />
       </div>
@@ -70,7 +76,7 @@
       <div class="col-lg-6 col-md-12 order-lg-2 order-4">
         <img
           src="{{ second_image_url }}"
-          alt="Canon 16-35"
+          alt="Canon EF 16-35mm wide-angle lens"
           class="img-fluid rounded"
         />
       </div>
