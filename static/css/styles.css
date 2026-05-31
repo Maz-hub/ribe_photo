@@ -4,8 +4,9 @@ html {
   padding: 0;
 }
 
-/* Remove horizontal scrollbar */
-body {
+/* Remove horizontal scrollbar.
+   Must be on html, not body — overflow on body clips position:fixed children. */
+html {
   overflow-x: hidden;
 }
 
@@ -50,8 +51,8 @@ body {
   opacity: 1;
 }
 
-/* Homepage carousel */
-.carousel-item {
+/* Homepage carousel only — scoped to .header so it doesn't bleed into other contexts */
+.header .carousel-item {
   height: 100vh;
   min-height: 300px;
   display: flex;
@@ -61,8 +62,7 @@ body {
   background-size: cover;
 }
 
-/* Responsive images and prevent horizontal scroll */
-.carousel-item img {
+.header .carousel-item img {
   width: 100%;
   height: 100vh;
   object-fit: cover;
@@ -137,6 +137,38 @@ body {
   object-fit: contain;
   background-color: #f0f0f0;
 }
+
+
+/* Custom lightbox */
+#lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  align-items: center;
+  justify-content: center;
+}
+#lb-img {
+  display: block;
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+}
+#lb-caption {
+  color: #ccc;
+  text-align: center;
+  margin: 8px 0 0;
+}
+#lb-prev, #lb-next, #lb-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.5rem;
+  cursor: pointer;
+}
+#lb-prev, #lb-next { padding: 0 20px; }
+#lb-close { position: absolute; top: 16px; right: 20px; }
 
 #flash-message {
   margin-bottom: 20px;

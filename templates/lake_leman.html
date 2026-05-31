@@ -46,44 +46,17 @@
   <div class="masonry-grid">
     {% for image in project_images %}
     <div class="gallery-item">
+      <!-- data-lightbox marks this link for the custom lightbox -->
+      <!-- data-title is the caption shown below the image -->
       <a
-        href="#"
-        class="open-modal"
-        data-bs-toggle="modal"
-        data-bs-target="#imageModal"
-        data-bs-image="{{ image.url }}"
-        data-bs-title="{{ image.title }}"
+        href="{{ image.url }}"
+        data-lightbox
+        data-title="{{ image.title }}"
       >
         <img src="{{ image.url }}" alt="{{ image.title }}" class="img-fluid" />
       </a>
     </div>
     {% endfor %}
-  </div>
-</div>
-
-<!-- Bootstrap Modal -->
-<div
-  class="modal fade"
-  id="imageModal"
-  tabindex="-1"
-  aria-labelledby="imageModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-muted" id="imageModalLabel"></h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body text-center">
-        <img id="modalImage" src="" alt="Image" class="img-fluid modal-image" />
-      </div>
-    </div>
   </div>
 </div>
 {% endblock %}

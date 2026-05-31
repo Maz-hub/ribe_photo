@@ -52,31 +52,61 @@ window.onload = () => {
   }
 };
 
-// MODAL
-document.addEventListener("DOMContentLoaded", function () {
-  // Select all elements with the class 'open-modal'
-  document.querySelectorAll(".open-modal").forEach((el) => {
-    el.addEventListener("click", function (e) {
-      e.preventDefault(); // Prevent default behavior of the <a> tag
+// LIGHTBOX
+(function () {
+  const lb = document.createElement("div");
+  lb.id = "lightbox";
+  lb.innerHTML =
+    '<button id="lb-prev">&#8592;</button>' +
+    '<div id="lb-body"><img id="lb-img"><p id="lb-caption"></p></div>' +
+    '<button id="lb-next">&#8594;</button>' +
+    '<button id="lb-close">&times;</button>';
+  document.body.appendChild(lb);
 
-      // Get the image URL and title from the data attributes
-      const imageUrl = this.getAttribute("data-bs-image");
-      const imageTitle = this.getAttribute("data-bs-title");
+  const img = document.getElementById("lb-img");
+  const cap = document.getElementById("lb-caption");
+  let slides = [], idx = 0;
 
-      // Set the modal image src
-      const modalImage = document.getElementById("modalImage");
-      modalImage.setAttribute("src", imageUrl);
+  function open(i) {
+    idx = i;
+    img.src = slides[i].src;
+    cap.textContent = slides[i].title;
+    lb.style.display = "flex";
+  }
+  function close() { lb.style.display = "none"; }
+  function prev() { open((idx - 1 + slides.length) % slides.length); }
+  function next() { open((idx + 1) % slides.length); }
 
-      // Set the modal title
-      const modalTitle = document.getElementById("imageModalLabel");
-      modalTitle.textContent = imageTitle;
+  document.querySelectorAll("[data-lightbox]").forEach((el, i) => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      slides = [...document.querySelectorAll("[data-lightbox]")].map((a) => ({
+        src: a.href,
+        title: a.dataset.title || "",
+      }));
+      open(i);
     });
   });
-});
+
+  document.getElementById("lb-prev").addEventListener("click", (e) => { e.stopPropagation(); prev(); });
+  document.getElementById("lb-next").addEventListener("click", (e) => { e.stopPropagation(); next(); });
+  document.getElementById("lb-close").addEventListener("click", close);
+  lb.addEventListener("click", (e) => { if (e.target === lb) close(); });
+  document.addEventListener("keydown", (e) => {
+    if (lb.style.display !== "flex") return;
+    if (e.key === "ArrowLeft") prev();
+    if (e.key === "ArrowRight") next();
+    if (e.key === "Escape") close();
+  });
+})();
 
 // EMAILS
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("contactForm");
+
+  // Contact form only exists on /contact — bail out on all other pages
+  if (!form) return;
+
   const flashMessage = document.getElementById("flash-message");
 
   form.addEventListener("submit", async (event) => {
