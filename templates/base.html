@@ -43,15 +43,18 @@
 
     <!--
       SEO block system — child templates override these three blocks:
-        {% block title %}            → browser tab + og:title + twitter:title
-        {% block meta_description %} → search snippet + og:description
-        {% block og_image %}         → URL string only, drives og:image + twitter:image
+        title            → browser tab + og:title + twitter:title
+        meta_description → search snippet + og:description
+        og_image         → URL string only, drives og:image + twitter:image
 
       All three have sensible portfolio-wide defaults so pages that don't
       override them still produce valid meta tags.
+
+      Note: Jinja2 block tags must NOT appear inside HTML comments or they
+      are parsed as real (unclosed) blocks. Descriptions above use plain text.
     -->
 
-    <!-- Page title — overridden per page via {% block title %} -->
+    <!-- Page title — overridden per page via the title block in each child template -->
     <title>{% block title %}Ribe Photo{% endblock %}</title>
 
     <!-- Meta description for search engines — keep under 160 chars -->
@@ -70,7 +73,7 @@
     <meta property="og:url" content="{{ request.url }}" />
     <meta property="og:title" content="{{ self.title() }}" />
     <meta property="og:description" content="{{ self.meta_description() }}" />
-    <!-- og:image value is the URL string provided by {% block og_image %} in each page -->
+    <!-- og:image value is the URL string provided by the og_image block in each page -->
     <meta property="og:image" content="{% block og_image %}{% endblock %}" />
 
     <!-- Twitter / X card — summary_large_image shows the full banner on share -->
