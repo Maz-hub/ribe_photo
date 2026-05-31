@@ -29,9 +29,9 @@ def index():
     # Slides
     public_ids = [
         "Leman_Ribe_Photo_2_kjqykc",
-        "Plitvice_Ribe_Photo_25_pwpx4p",
-        "Autumn_Ribe_Photo_8_h78clf",
-        "Sahara_Ribe_Photo_3_mgyyrr"
+        "Ribe_Photo_Grece_Athens_11_eulu8u",
+        "Summer_Ribe_Photo_18_uk9pw3",
+        "Winter_Ribe_Photo_5_fkcfgr",
     ]
 
     slide_urls = [cloudinary_url(public_id)[0] for public_id in public_ids]
@@ -51,7 +51,9 @@ def galleries():
         "Title_le3xqj",
         "title_rmcb2a",
         "Title_cxofnz",
-        
+        "Summer_Ribe_Photo_Title_mdd0ql",
+        "Winter_Ribe_Photo_Title_l0qjuy",
+        "Ribe_Photo_Grece_Title_xsquzx",
     ]
 
     banner_url = cloudinary_url(banner_id)[0]
@@ -380,6 +382,164 @@ def mushrooms():
 
 
 
+#mountains_summer
+
+@app.route("/mountains_summer")
+def mountains_summer():
+    # Public ID for the banner photo
+    banner_id = "Summer_Ribe_Photo_Title_mdd0ql"
+
+    # Public IDs for the images in the Mountains Summer project (numerically ordered)
+    mountains_summer_ids = [
+        "Summer_Ribe_Photo_1_r4kvqf",
+        "Summer_Ribe_Photo_2_lmqh0h",
+        "Summer_Ribe_Photo_3_x3xk62",
+        "Summer_Ribe_Photo_4_atbjxo",
+        "Summer_Ribe_Photo_5_ursueo",
+        "Summer_Ribe_Photo_6_ynsvrl",
+        "Summer_Ribe_Photo_7_c199pf",
+        "Summer_Ribe_Photo_8_kuwudb",
+        "Summer_Ribe_Photo_9_mpxiyt",
+        "Summer_Ribe_Photo_10_kix5iy",
+        "Summer_Ribe_Photo_11_ugwx8v",
+        "Summer_Ribe_Photo_12_ly7p46",
+        "Summer_Ribe_Photo_13_odzzac",
+        "Summer_Ribe_Photo_14_ev0pyk",
+        "Summer_Ribe_Photo_15_jrcijs",
+        "Summer_Ribe_Photo_16_o9wdrh",
+        "Summer_Ribe_Photo_17_ufoxnr",
+        "Summer_Ribe_Photo_18_uk9pw3",
+        "Summer_Ribe_Photo_19_k84ngt",
+    ]
+
+    # Generate banner URL locally — no API call
+    banner_url = cloudinary_url(banner_id)[0]
+
+    # Single API call to fetch metadata (e.g. captions) for all images at once
+    result = cloudinary.api.resources_by_ids(mountains_summer_ids, context=True)
+
+    # Index results by public_id — the API returns them in arbitrary order
+    by_id = {r["public_id"]: r for r in result["resources"]}
+
+    # Rebuild the list in the original curated order, pairing each URL with its caption
+    project_images = [
+        {
+            "url": cloudinary_url(image_id)[0],
+            "title": by_id.get(image_id, {}).get("context", {}).get("custom", {}).get("caption", "No Title"),
+        }
+        for image_id in mountains_summer_ids
+    ]
+
+    return render_template("mountains_summer.html", banner_url=banner_url, project_images=project_images)
+
+
+#mountains_winter
+
+@app.route("/mountains_winter")
+def mountains_winter():
+    # Public ID for the banner photo
+    banner_id = "Winter_Ribe_Photo_Title_l0qjuy"
+
+    # Public IDs for the images in the Mountains Winter project (numerically ordered)
+    mountains_winter_ids = [
+        "Winter_Ribe_Photo_1_a1vywj",
+        "Winter_Ribe_Photo_2_h55wyl",
+        "Winter_Ribe_Photo_3_zldpuv",
+        "Winter_Ribe_Photo_4_ex7hw9",
+        "Winter_Ribe_Photo_5_fkcfgr",
+        "Winter_Ribe_Photo_6_tmiak2",
+        "Winter_Ribe_Photo_7_wl1la3",
+        "Winter_Ribe_Photo_9_bykq8q",
+        "Winter_Ribe_Photo_10_ffwqvx",
+        "Winter_Ribe_Photo_11_rrxa0m",
+        "Winter_Ribe_Photo_12_xeiugb",
+        "Winter_Ribe_Photo_13_bexz4x",
+        "Winter_Ribe_Photo_14_y0wvym",
+        "Winter_Ribe_Photo_15_z0li1h",
+        "Winter_Ribe_Photo_16_tiaadz",
+        "Winter_Ribe_Photo_17_fh7o4x",
+        "Winter_Ribe_Photo_18_t1e63j",
+    ]
+
+    # Generate banner URL locally — no API call
+    banner_url = cloudinary_url(banner_id)[0]
+
+    # Single API call to fetch metadata (e.g. captions) for all images at once
+    result = cloudinary.api.resources_by_ids(mountains_winter_ids, context=True)
+
+    # Index results by public_id — the API returns them in arbitrary order
+    by_id = {r["public_id"]: r for r in result["resources"]}
+
+    # Rebuild the list in the original curated order, pairing each URL with its caption
+    project_images = [
+        {
+            "url": cloudinary_url(image_id)[0],
+            "title": by_id.get(image_id, {}).get("context", {}).get("custom", {}).get("caption", "No Title"),
+        }
+        for image_id in mountains_winter_ids
+    ]
+
+    return render_template("mountains_winter.html", banner_url=banner_url, project_images=project_images)
+
+
+#greece
+
+@app.route("/greece")
+def greece():
+    # Public ID for the banner photo
+    banner_id = "Ribe_Photo_Grece_Title_xsquzx"
+
+    # Public IDs for the images in the Greece project (grouped by location)
+    greece_ids = [
+        "Ribe_Photo_Grece_Athens_1_n6dlzn",
+        "Ribe_Photo_Grece_Athens_2_ekcse1",
+        "Ribe_Photo_Grece_Athens_3_ublmlh",
+        "Ribe_Photo_Grece_Athens_4_apntr4",
+        "Ribe_Photo_Grece_Athens_5_lufg0j",
+        "Ribe_Photo_Grece_Athens_6_o4hcrg",
+        "Ribe_Photo_Grece_Athens_7_bu87ky",
+        "Ribe_Photo_Grece_Athens_8_fjlnp4",
+        "Ribe_Photo_Grece_Athens_9_jmpa9m",
+        "Ribe_Photo_Grece_Athens_10_mmrpyj",
+        "Ribe_Photo_Grece_Athens_11_eulu8u",
+        "Ribe_Photo_Grece_Kalamata_1_ybuhge",
+        "Ribe_Photo_Grece_Kalamata_2_u1ioab",
+        "Ribe_Photo_Grece_Kalamata_3_gqclaj",
+        "Ribe_Photo_Grece_Kalamata_4_e9ofwa",
+        "Ribe_Photo_Grece_Kalamata_5_k3mj3z",
+        "Ribe_Photo_Grece_Kalamata_6_oyyw2o",
+        "Ribe_Photo_Grece_Monastere_1_pyd8w7",
+        "Ribe_Photo_Grece_Monastere_2_jrzuvt",
+        "Ribe_Photo_Grece_Olympia_1_elm8t6",
+        "Ribe_Photo_Grece_Olympia_2_jjqqvm",
+        "Ribe_Photo_Grece_Olympia_3_srxkuo",
+        "Ribe_Photo_Grece_Olympia_4_x6iwt2",
+        "Ribe_Photo_Grece_Olympia_5_bfohh3",
+        "Ribe_Photo_Grece_Olympia_6_bafcad",
+        "Ribe_Photo_Grece_Olympia_7_pdwwrl",
+    ]
+
+    # Generate banner URL locally — no API call
+    banner_url = cloudinary_url(banner_id)[0]
+
+    # Single API call to fetch metadata (e.g. captions) for all images at once
+    result = cloudinary.api.resources_by_ids(greece_ids, context=True)
+
+    # Index results by public_id — the API returns them in arbitrary order
+    by_id = {r["public_id"]: r for r in result["resources"]}
+
+    # Rebuild the list in the original curated order, pairing each URL with its caption
+    project_images = [
+        {
+            "url": cloudinary_url(image_id)[0],
+            "title": by_id.get(image_id, {}).get("context", {}).get("custom", {}).get("caption", "No Title"),
+        }
+        for image_id in greece_ids
+    ]
+
+    return render_template("greece.html", banner_url=banner_url, project_images=project_images)
+
+
 @app.route("/about")
 def about():
     # Banner Image
@@ -390,7 +550,7 @@ def about():
     first_image_id = "5dmk4-Canon_cug99m"
     first_image_url = cloudinary_url(first_image_id)[0]
 
-    second_image_id = "70-200mm_2_rysn1h"
+    second_image_id = "canon1635_2_ekdqcg"
     second_image_url = cloudinary_url(second_image_id)[0]
 
     return render_template(

@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Banner -->
+<section
+  id="banner"
+  class="banner"
+  style="background-image: url('{{ banner_url }}');"
+></section>
+
+<section>
+  <div class="container">
+    <p class="text-justify my-2 mt-5">
+      Summer in the Swiss Alps is a world transformed. The snow retreats to the
+      highest peaks, revealing lush green meadows that stretch up toward rocky
+      summits, dotted with wildflowers in every shade imaginable. The air is
+      crisp and clean, carrying the scent of pine and earth warmed by long days
+      of mountain sunshine.
+    </p>
+    <p class="text-justify mb-2">
+      There's a particular quality of light here in summer: bright and direct,
+      casting sharp shadows across ridgelines, then softening to gold as evening
+      approaches. The mountains feel open and generous in this season, their
+      paths beckoning hikers upward while valleys below hum quietly with the
+      sound of streams fed by distant glaciers.
+    </p>
+    <p class="text-justify my-2">
+      What draws me back is the contrast: jagged rock against soft sky, the
+      permanence of stone against the fleeting bloom of a summer afternoon. Every
+      viewpoint reveals something unexpected, a hidden tarn reflecting the peaks,
+      a lone tree clinging to a ridge, or the distant shimmer of a glacier still
+      holding on.
+    </p>
+    <p class="text-justify mb-5">
+      These images are a record of those summer hours spent among the Alps, an
+      attempt to hold onto the clarity and vastness that only the mountains in
+      their warmest season can offer.
+    </p>
+  </div>
+</section>
+
+<div class="container-lg mt-5">
+  <div class="masonry-grid">
+    {% for image in project_images %}
+    <div class="gallery-item">
+      <!-- data-lightbox marks this link for the custom lightbox -->
+      <!-- data-title is the caption shown below the image -->
+      <a
+        href="{{ image.url }}"
+        data-lightbox
+        data-title="{{ image.title }}"
+      >
+        <img src="{{ image.url }}" alt="{{ image.title }}" class="img-fluid" />
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

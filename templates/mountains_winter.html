@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Banner -->
+<section
+  id="banner"
+  class="banner"
+  style="background-image: url('{{ banner_url }}');"
+></section>
+
+<section>
+  <div class="container">
+    <p class="text-justify my-2 mt-5">
+      Winter strips the Alps down to their essentials. The colour palette
+      narrows to whites and greys and the deep blue of a cold sky, and somehow
+      that simplicity makes everything feel more dramatic. Snow settles over the
+      landscape like silence made visible, smoothing out the rough edges of
+      summer and leaving behind something pure and austere.
+    </p>
+    <p class="text-justify mb-2">
+      The light behaves differently in winter. Low on the horizon, it rakes
+      across snow-covered slopes at a shallow angle, throwing every small
+      undulation into relief. A shadow can stretch for hundreds of metres.
+      Midday brings a brilliance that is almost blinding, while dusk turns the
+      peaks pink and orange before the cold blue of night takes hold.
+    </p>
+    <p class="text-justify my-2">
+      There is a particular stillness in the mountains at this time of year.
+      The tourists thin out, the summer sounds disappear, and what remains is
+      wind, snow, and stone. It demands attention and patience, but for those
+      willing to wait, the Alps in winter reveal a raw, unguarded beauty.
+    </p>
+    <p class="text-justify mb-5">
+      These photographs are collected from those quiet winter days, moments
+      where the cold and the light conspired to produce something worth
+      stopping for.
+    </p>
+  </div>
+</section>
+
+<div class="container-lg mt-5">
+  <div class="masonry-grid">
+    {% for image in project_images %}
+    <div class="gallery-item">
+      <!-- data-lightbox marks this link for the custom lightbox -->
+      <!-- data-title is the caption shown below the image -->
+      <a
+        href="{{ image.url }}"
+        data-lightbox
+        data-title="{{ image.title }}"
+      >
+        <img src="{{ image.url }}" alt="{{ image.title }}" class="img-fluid" />
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

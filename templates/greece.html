@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Banner -->
+<section
+  id="banner"
+  class="banner"
+  style="background-image: url('{{ banner_url }}');"
+></section>
+
+<section>
+  <div class="container">
+    <p class="text-justify my-2 mt-5">
+      Greece is a place where history and landscape are inseparable. In Athens,
+      ancient marble rises above a modern city, and every street corner offers
+      a view framed by ruins that have stood for millennia. The Acropolis casts
+      its shadow over the whole city, a reminder of what endures when
+      everything else changes.
+    </p>
+    <p class="text-justify mb-2">
+      Further south, Kalamata opens onto the Messinian Gulf, where the light is
+      softer and the pace slower. Olive groves stretch across the hills, and
+      the sea is a constant presence, shaping everything from the food to the
+      rhythm of daily life. It is Greece at its most unhurried and most generous.
+    </p>
+    <p class="text-justify my-2">
+      Olympia carries the weight of its mythology lightly. Walking through the
+      sanctuary where the ancient games were held, past the fallen columns of
+      the temple of Zeus and the original stadium track, it is easy to feel the
+      particular gravity of a place that mattered deeply to millions of people
+      across centuries. The site is quiet now, the stones warm in the afternoon
+      sun, and the scale of it, the sheer ambition of what was built here, is
+      humbling.
+    </p>
+    <p class="text-justify mb-5">
+      These images move between all three: the grandeur of Athens, the warmth
+      of the Peloponnese coast, and the silence of Olympia, each one a
+      different facet of a country that rewards those who look carefully.
+    </p>
+  </div>
+</section>
+
+<div class="container-lg mt-5">
+  <div class="masonry-grid">
+    {% for image in project_images %}
+    <div class="gallery-item">
+      <!-- data-lightbox marks this link for the custom lightbox -->
+      <!-- data-title is the caption shown below the image -->
+      <a
+        href="{{ image.url }}"
+        data-lightbox
+        data-title="{{ image.title }}"
+      >
+        <img src="{{ image.url }}" alt="{{ image.title }}" class="img-fluid" />
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
